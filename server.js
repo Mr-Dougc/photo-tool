@@ -4,9 +4,10 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
+import fs from 'fs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-dotenv.config({ path: join(__dirname, '.env') })
+if (fs.existsSync(join(__dirname, '.env'))) dotenv.config({ path: join(__dirname, '.env') })
 
 const app = express()
 app.use(cors())
@@ -52,7 +53,7 @@ app.post('/api/remove-bg', async (req, res) => {
 // Serve built frontend in production
 const distPath = join(__dirname, 'dist')
 app.use(express.static(distPath))
-app.get('/{*splat}', (_, res) => res.sendFile(join(distPath, 'index.html')))
+app.get('*', (_, res) => res.sendFile(join(distPath, 'index.html')))
 
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`))
