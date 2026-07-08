@@ -1,0 +1,28 @@
+{
+  "name": "exam-photo-tool",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"node server.js\" \"vite\"",
+    "build": "vite build",
+    "start": "node server.js",
+    "deploy": "vite build && pm2 start server.js --name exam-photo --restart-delay 3000 && pm2 save"
+  },
+  "dependencies": {
+    "@imgly/background-removal": "^1.5.0",
+    "axios": "^1.11.0",
+    "concurrently": "^9.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "file-saver": "^2.0.5",
+    "jszip": "^3.10.0",
+    "pm2": "^7.0.3",
+    "vue": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.0.0"
+  }
+}
