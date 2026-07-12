@@ -1,16 +1,13 @@
 import express from 'express'
 import axios from 'axios'
 import dotenv from 'dotenv'
-import cors from 'cors'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
-import { existsSync } from 'fs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-if (existsSync(join(__dirname, '.env'))) dotenv.config({ path: join(__dirname, '.env') })
+dotenv.config()
 
 const app = express()
-app.use(cors())
 app.use(express.json({ limit: '50mb' }))
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok' }))
@@ -52,4 +49,5 @@ app.use(express.static(distPath))
 app.get('*', (_, res) => res.sendFile(join(distPath, 'index.html')))
 
 const PORT = process.env.PORT || 3000
+console.log('Starting on port', PORT, 'dist path:', distPath)
 app.listen(PORT, '0.0.0.0', () => console.log('Server running on port ' + PORT))
