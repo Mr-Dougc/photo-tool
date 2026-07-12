@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 dotenv.config()
 
 const app = express()
-app.use(express.json({ limit: '50mb' }))
+app.use(express.json({ limit: '10mb' }))
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok' }))
 
@@ -48,6 +48,12 @@ const distPath = join(__dirname, 'dist')
 app.use(express.static(distPath))
 app.get('*', (_, res) => res.sendFile(join(distPath, 'index.html')))
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8080
 console.log('Starting on port', PORT, 'dist path:', distPath)
+
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err.message)
+  res.status(500).json({ error: 'Internal error' })
+})
+
 app.listen(PORT, '0.0.0.0', () => console.log('Server running on port ' + PORT))
