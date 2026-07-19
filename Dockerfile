@@ -13,3 +13,4 @@ COPY --from=builder /app/dist ./dist
 COPY server.js ./
 EXPOSE 8080
 CMD ["node", "server.js"]
+# rebuild
